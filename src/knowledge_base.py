@@ -1,9 +1,11 @@
 import sqlite3
 import re
 import logging
+from fuzzywuzzy import fuzz
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
 
 class KnowledgeBase:
     def __init__(self, db_path):
@@ -75,22 +77,34 @@ class KnowledgeBase:
         )
         self.conn.commit()
 
-    def search_nodes(self, query):
-        logger.debug(f"Searching for nodes with query: {query}")
+    def fuzzy_search_nodes(self, query, threshold=30):
+        logger.debug(f"Fuzzy searching for nodes with query: {query}")
         clean_query = re.sub(r'[^\w\s]', '', query.lower())
-        words = clean_query.split()
 
-        condition = " OR ".join([f"LOWER(question) LIKE ? OR LOWER(answer) LIKE ?" for _ in words])
-        params = [f"%{word}%" for word in words for _ in range(2)]
+        self.cursor.execute("SELECT id, node_type, question, answer FROM nodes")
+        all_nodes = self.cursor.fetchall()
+        logger.debug(f"Total nodes in database: {len(all_nodes)}")
 
-        self.cursor.execute(f"""
-            SELECT id, node_type, question, answer 
-            FROM nodes 
-            WHERE {condition}
-        """, params)
-        results = self.cursor.fetchall()
-        logger.debug(f"Found nodes: {results}")
-        return results
+        results = []
+        for node in all_nodes:
+            node_id, node_type, question, answer = node
+            node_text = f"{question} {answer}".lower() if question and answer else (question or answer or "").lower()
+
+            ratio = max(
+                fuzz.ratio(clean_query, node_text),
+                fuzz.partial_ratio(clean_query, node_text),
+                fuzz.token_sort_ratio(clean_query, node_text),
+                fuzz.token_set_ratio(clean_query, node_text)
+            )
+
+            logger.debug(f"Node {node_id}: ratio = {ratio}, text = {node_text[:50]}...")
+
+            if ratio >= threshold:
+                results.append((node, ratio))
+
+        sorted_results = sorted(results, key=lambda x: x[1], reverse=True)
+        logger.debug(f"Found fuzzy matched nodes: {sorted_results}")
+        return [node for node, ratio in sorted_results]
 
     def get_node_by_button(self, button_text):
         logger.debug(f"Searching for node with button text: {button_text}")
@@ -104,15 +118,6 @@ class KnowledgeBase:
         logger.debug(f"Found node: {result}")
         return result
 
-    def print_all_data(self):
-        logger.debug("Printing all data from the database")
-        self.cursor.execute("SELECT * FROM nodes")
-        logger.debug(f"Nodes: {self.cursor.fetchall()}")
-        self.cursor.execute("SELECT * FROM transitions")
-        logger.debug(f"Transitions: {self.cursor.fetchall()}")
-        self.cursor.execute("SELECT * FROM buttons")
-        logger.debug(f"Buttons: {self.cursor.fetchall()}")
-
     def clear_database(self):
         logger.info("Clearing the database")
         self.cursor.execute("DELETE FROM nodes")
@@ -122,3 +127,12 @@ class KnowledgeBase:
 
     def close(self):
         self.conn.close()
+
+    def print_all_data(self):
+        logger.debug("Printing all data from the database")
+        self.cursor.execute("SELECT * FROM nodes")
+        logger.debug(f"Nodes: {self.cursor.fetchall()}")
+        self.cursor.execute("SELECT * FROM transitions")
+        logger.debug(f"Transitions: {self.cursor.fetchall()}")
+        self.cursor.execute("SELECT * FROM buttons")
+        logger.debug(f"Buttons: {self.cursor.fetchall()}")

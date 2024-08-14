@@ -3,7 +3,6 @@ import logging
 from knowledge_base import KnowledgeBase
 from dialog_manager import DialogManager
 
-
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -11,26 +10,20 @@ logger = logging.getLogger(__name__)
 def initialize_knowledge_base(kb):
     logger.info("Initializing knowledge base")
 
-    # Проверяем, существует ли уже главное меню
-    kb.cursor.execute("SELECT id FROM nodes WHERE node_type = 'question' AND question LIKE '%Выберите категорию%'")
-    existing_main_menu = kb.cursor.fetchone()
+    main_menu_id = kb.add_node("question", "Главное меню: Выберите категорию", None)
+    kb.add_button(main_menu_id, "Договоры")
+    kb.add_button(main_menu_id, "Закупки")
+    kb.add_button(main_menu_id, "Финансы")
 
-    if existing_main_menu:
-        main_menu_id = existing_main_menu[0]
-    else:
-        main_menu_id = kb.add_node("question", "Выберите категорию: Договоры, Закупки, Финансы", None)
-        kb.add_button(main_menu_id, "Договоры")
-        kb.add_button(main_menu_id, "Закупки")
-        kb.add_button(main_menu_id, "Финансы")
-
-    # Ветка "Договоры"
-    contracts_id = kb.add_node("question", "Вопросы по договорам: Как заключить договор? Сроки согласования договора", None)
+    contracts_id = kb.add_node("question", "Вопросы по договорам: Как заключить договор? Сроки согласования договора",
+                               None)
     kb.add_transition(main_menu_id, contracts_id, "Договоры")
     kb.add_button(contracts_id, "Как заключить договор?")
     kb.add_button(contracts_id, "Сроки согласования договора")
 
-    how_to_contract_id = kb.add_node("answer", "Как заключить договор? Процесс заключения договора. Этапы заключения договора.",
-                                     "Для заключения договора необходимо: 1) Подготовить проект договора; 2) Согласовать его с юридическим отделом; 3) Подписать у руководителя.")
+    how_to_contract_id = kb.add_node("answer",
+                                     "Как заключить договор? Процесс заключения договора. Этапы заключения договора. Оформление договора. Подписание контракта. Составление соглашения.",
+                                     "Для заключения договора необходимо: 1) Подготовить проект договора; 2) Согласовать его с юридическим отделом; 3) Подписать у руководителя. Это основные этапы процесса заключения договора.")
     kb.add_transition(contracts_id, how_to_contract_id, "Как заключить договор?")
 
     contract_time_id = kb.add_node("answer",
@@ -38,7 +31,6 @@ def initialize_knowledge_base(kb):
                                    "Стандартный срок согласования договора составляет 5 рабочих дней.")
     kb.add_transition(contracts_id, contract_time_id, "Сроки согласования договора")
 
-    # Ветка "Закупки"
     purchases_id = kb.add_node("question", "Вопросы по закупкам: Как провести тендер? Лимиты закупок", None)
     kb.add_transition(main_menu_id, purchases_id, "Закупки")
     kb.add_button(purchases_id, "Как провести тендер?")
@@ -61,7 +53,6 @@ def initialize_knowledge_base(kb):
                                      "Лимиты закупок: До 100 000 руб. - прямая закупка; От 100 000 до 1 000 000 руб. - запрос котировок; Свыше 1 000 000 руб. - тендер.")
     kb.add_transition(purchases_id, purchase_limits_id, "Лимиты закупок")
 
-    # Ветка "Финансы"
     finances_id = kb.add_node("question", "Вопросы по финансам: Как сформировать бюджет? Сроки подачи отчетности", None)
     kb.add_transition(main_menu_id, finances_id, "Финансы")
     kb.add_button(finances_id, "Как сформировать бюджет?")
@@ -76,6 +67,7 @@ def initialize_knowledge_base(kb):
     kb.add_transition(finances_id, reporting_id, "Сроки подачи отчетности")
 
     logger.info("Knowledge base initialized")
+    return main_menu_id
 
 
 def main():
@@ -88,9 +80,10 @@ def main():
 
     kb = KnowledgeBase(db_path)
     kb.clear_database()
-    initialize_knowledge_base(kb)
-    #kb.print_all_data()
+    main_menu_id = initialize_knowledge_base(kb)
+    kb.print_all_data()
     dm = DialogManager(kb)
+    dm.main_menu_id = main_menu_id
 
     print("Добро пожаловать в систему вопросов и ответов!")
     print("Вы можете выбрать категорию или задать вопрос напрямую.")
@@ -98,7 +91,6 @@ def main():
 
     while True:
         response = dm.process_node()
-        logger.debug(f"Response from DialogManager: {response}")
         print("\n" + response["response"])
         print("Доступные опции:", ", ".join(response["buttons"]))
         print("Или задайте свой вопрос.")
@@ -109,7 +101,15 @@ def main():
             logger.info("User requested to exit")
             break
 
-        dm.process_input(user_input)
+        if user_input in response["buttons"]:
+            if user_input == "Главное меню":
+                dm.return_to_main_menu()
+            elif user_input == "Назад":
+                dm.go_back()
+            else:
+                dm.process_input(user_input)
+        else:
+            dm.process_input(user_input)
 
     kb.close()
     logger.info("Application shutting down")
