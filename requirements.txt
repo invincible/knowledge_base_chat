@@ -1,3 +1,2 @@
-sqlite3
-fuzzywuzzy
-python-Levenshtein
+scikit-learn==0.24.2
+numpy==1.21.0
