@@ -12,18 +12,18 @@ class KnowledgeBase:
 
     def initialize(self):
         keywords = self.cursor.execute("SELECT keyword FROM keywords").fetchall()
-        self.keywords = [k[0] for k in keywords]
+        self.keywords = [k[0].lower() for k in keywords]  # Приводим ключевые слова к нижнему регистру
         self.X = self.vectorizer.fit_transform(self.keywords)
 
-    def find_similar(self, query, threshold=0.7, top_n=3):
-        query_vec = self.vectorizer.transform([query])
+    def find_similar(self, query, threshold=0.7, top_n=4):
+        query_vec = self.vectorizer.transform([query.lower()])  # Приводим запрос к нижнему регистру
         similarities = cosine_similarity(query_vec, self.X).flatten()
         results = []
 
         for idx in np.argsort(similarities)[-top_n:][::-1]:
             similarity_percentage = similarities[idx] * 100
             if similarity_percentage >= threshold * 100:
-                node_id = self.cursor.execute("SELECT node_id FROM keywords WHERE keyword=?", (self.keywords[idx],)).fetchone()[0]
+                node_id = self.cursor.execute("SELECT node_id FROM keywords WHERE LOWER(keyword)=?", (self.keywords[idx],)).fetchone()[0]
                 node = self.cursor.execute("SELECT * FROM nodes WHERE id=?", (node_id,)).fetchone()
                 results.append({
                     "node_id": node[0],
@@ -45,3 +45,7 @@ class KnowledgeBase:
 
     def get_node(self, node_id):
         return self.cursor.execute("SELECT * FROM nodes WHERE id=?", (node_id,)).fetchone()
+
+    def get_parent_id(self, node_id):
+        parent = self.cursor.execute("SELECT parent_id FROM nodes WHERE id=?", (node_id,)).fetchone()
+        return parent[0] if parent else None

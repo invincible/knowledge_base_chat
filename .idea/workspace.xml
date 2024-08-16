@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cbc401c-13e7-4b0b-8fd5-1738379efc2d" name="Changes" comment="Нечёткий поиск и улучшенная навигация">
-      <change afterPath="$PROJECT_DIR$/data/bd.py" afterDir="false" />
+    <list default="true" id="2cbc401c-13e7-4b0b-8fd5-1738379efc2d" name="Changes" comment="Новая архитектура">
+      <change afterPath="$PROJECT_DIR$/src/dialog.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/knowledge_base.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/knowledge_base.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/bd.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/bd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dialog.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dialog_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dialog_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/knowledge_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/knowledge_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,13 +82,22 @@
       <option name="project" value="LOCAL" />
       <updated>1723644485879</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Новая архитектура">
+      <option name="closed" value="true" />
+      <created>1723800014593</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1723800014593</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Минимально рабочая версия" />
     <MESSAGE value="Нечёткий поиск и улучшенная навигация" />
-    <option name="LAST_COMMIT_MESSAGE" value="Нечёткий поиск и улучшенная навигация" />
+    <MESSAGE value="Новая архитектура" />
+    <option name="LAST_COMMIT_MESSAGE" value="Новая архитектура" />
   </component>
 </project>
