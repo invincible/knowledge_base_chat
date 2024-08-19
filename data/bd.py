@@ -68,5 +68,9 @@ cursor.executemany('INSERT INTO keywords VALUES (?,?,?)', [
     (6, 7, 'что такое договор подряда'),
 ])
 
+# Индексы для часто запрашиваемых столбцов
+cursor.execute('CREATE INDEX idx_node_id ON keywords(node_id)')
+cursor.execute('CREATE INDEX idx_keyword ON keywords(keyword)')
+
 conn.commit()
 conn.close()
