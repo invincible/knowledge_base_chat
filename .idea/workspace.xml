@@ -4,13 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cbc401c-13e7-4b0b-8fd5-1738379efc2d" name="Changes" comment="кнопки назад и главное меню, регистр">
+    <list default="true" id="2cbc401c-13e7-4b0b-8fd5-1738379efc2d" name="Changes" comment="mvp">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/AdminInterface.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/ChatInterface.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/knowbase_chat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/knowbase_chat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/bd.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/bd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/dialog.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dialog.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/dialog.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dialog_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dialog_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/knowledge_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/knowledge_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +54,7 @@
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
 }</component>
@@ -99,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723804462154</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="рефакторинг">
+      <option name="closed" value="true" />
+      <created>1724074777511</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1724074777511</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -108,6 +129,8 @@
     <MESSAGE value="Нечёткий поиск и улучшенная навигация" />
     <MESSAGE value="Новая архитектура" />
     <MESSAGE value="кнопки назад и главное меню, регистр" />
-    <option name="LAST_COMMIT_MESSAGE" value="кнопки назад и главное меню, регистр" />
+    <MESSAGE value="рефакторинг" />
+    <MESSAGE value="mvp" />
+    <option name="LAST_COMMIT_MESSAGE" value="mvp" />
   </component>
 </project>

@@ -3,6 +3,10 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/client/node_modules/.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/client/node_modules/axios/lib/defaults/env" />
+      <excludeFolder url="file://$MODULE_DIR$/client/node_modules/axios/lib/env" />
+      <excludeFolder url="file://$MODULE_DIR$/client/node_modules/nwsapi/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

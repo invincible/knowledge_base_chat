@@ -18,3 +18,13 @@ coverage.xml
 .mypy_cache
 .pytest_cache
 .hypothesis
+
+# Ignore node_modules directory
+/client/node_modules/
+
+# Дополнительные правила для Node.js проектов
+node_modules/
+npm-debug.log
+yarn-error.log
+.env
+.DS_Store
